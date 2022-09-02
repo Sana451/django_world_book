@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Название книги: {{ book.title }}</h1>
+<p><strong>Жанр: {{ book.genre }}</strong></p>
+<p><strong>Аннотация: {{ book.summary }}</strong></p>
+<p><strong>ISBN: {{ book.isbn }}</strong></p>
+<p><strong>Язык: {{ book.language }}</strong></p>
+  {% for author in book.author.all %}
+  <p><strong>Автор:</strong>
+  <a href="">{{ author.first_name }}
+              {{ author.last_name }}</a>
+  </p>
+  {% endfor %}
+
+<div style="margin-left: 20px; margin-top: 20px">
+     <h4>Количество экземпляров книг в БД</h4>
+    {% for copy in book.bookinstance_set.all %}
+<!--    итерации по каждому экземпляру книги-->
+      <hr><p class="{% if copy.status == 1 %} text-success
+                    {% elif copy.status == 2 %} text-danger
+                    {% else %} text-warning
+                    {% endif %}"> {{ copy.get_status_display }}</p>
+        <p><strong>Издательство:</strong>{{ copy.imprint }}</p>
+        <p class="text-muted"><strong>Инвентарный номер:</strong> {{ copy.id }} </p>
+    {% endfor %}
+</div>
+{% endblock %}
+<p><strong>Автор:</strong><a href="">{{ author.first_name }}
+{{ author.last_name }}</a></p>
